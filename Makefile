@@ -2,7 +2,7 @@ NAME=conoha-iso
 BINDIR=bin
 GOARCH=amd64
 
-all: clean windows darwin linux
+all: clean windows darwin linux netbsd
 
 windows:
 	GOOS=$@ GOARCH=$(GOARCH) CGO_ENABLED=0 go build $(GOFLAGS) -o $(BINDIR)/$@/$(NAME).exe
@@ -15,6 +15,10 @@ darwin:
 linux:
 	GOOS=$@ GOARCH=$(GOARCH) CGO_ENABLED=0 go build $(GOFLAGS) -o $(BINDIR)/$@/$(NAME)
 	cd bin/$@; gzip -c $(NAME) > $(NAME)-linux.$(GOARCH).gz
+
+netbsd:
+	GOOS=$@ GOARCH=$(GOARCH) CGO_ENABLED=0 go build $(GOFLAGS) -o $(BINDIR)/$@/$(NAME)
+	cd bin/$@; gzip -c $(NAME) > $(NAME)-netbsd.$(GOARCH).gz
 
 clean:
 	rm -rf $(BINDIR)
